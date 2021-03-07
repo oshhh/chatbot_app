@@ -17,7 +17,12 @@ class App extends Component {
     this.askAboutTopics = this.askAboutTopics.bind(this);
   }
   state = {
-    messages: [],
+    messages: [
+      {
+        text: "Hello! Please enter your question!",
+        author: "bot",
+      },
+    ],
     loading: false,
   };
   data = {
