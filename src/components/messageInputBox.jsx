@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { ArrowRightCircleFill } from "react-bootstrap-icons";
 import sendIcon from "../assets/sendIcon.webp";
 class MessageInputBox extends Component {
   constructor(props) {

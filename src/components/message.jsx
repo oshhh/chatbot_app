@@ -11,7 +11,11 @@ class Message extends Component {
   state = {
     allowOptionSelect: true,
     expand: false,
-    nbrText: "",
+    neighbouring_sentences: [],
+    document: {
+      name: "",
+      source: "",
+    },
   };
 
   data = {
@@ -56,17 +60,17 @@ class Message extends Component {
         </div>
       );
     }
-    let expand = null;
+    let expand_button = null;
     if (this.props.message.type == "answer") {
       if (this.state.expand) {
-        expand = (
+        expand_button = (
           <ChevronContract
             onClick={() => this.handleExpand(false)}
             className="margin pull-right"
           />
         );
       } else {
-        expand = (
+        expand_button = (
           <ChevronExpand
             onClick={() => this.handleExpand(true)}
             className="margin pull-right"
@@ -74,19 +78,44 @@ class Message extends Component {
         );
       }
     }
+    let message_body = null;
+    if (this.props.message.type == "answer" && this.state.expand) {
+      message_body = (
+        <div>
+          <p>
+            {this.state.neighbouring_sentences.map((sentence) => {
+              if (sentence.s_id == this.props.message.sentence.s_id) {
+                return (
+                  <span>
+                    <b>{sentence.sentence} </b>
+                  </span>
+                );
+              } else {
+                return <span>{sentence.sentence} </span>;
+              }
+            })}
+          </p>
+          <div className="answerSource">
+            <span>Source: </span>
+            <a href={this.state.document.source}>{this.state.document.name}</a>
+          </div>
+        </div>
+      );
+    } else {
+      message_body = (
+        <p>
+          {this.props.message.type == "answer"
+            ? "..." + this.props.message.text + "..."
+            : this.props.message.text}
+        </p>
+      );
+    }
     return (
       <React.Fragment>
         <div className={this.props.message.author}>
           <div className={card_class}>
-            {expand}
-            {/* <span className="card-title">{this.props.message.author}:</span> */}
-            <span className="card-text">
-              {this.props.message.type == "answer"
-                ? this.state.expand
-                  ? this.state.nbrText
-                  : "..." + this.props.message.text + "..."
-                : this.props.message.text}
-            </span>
+            {expand_button}
+            {message_body}
             {msq}
           </div>
         </div>
@@ -105,7 +134,8 @@ class Message extends Component {
 
   async handleExpand(expand) {
     this.setState({ expand: expand });
-    if (expand && this.state.nbrText == "") {
+    console.log(this.state.neighbouring_sentences);
+    if (expand && this.state.neighbouring_sentences.length == 0) {
       const requestOptions = {
         method: "POST",
         body: JSON.stringify({
@@ -113,15 +143,15 @@ class Message extends Component {
         }),
       };
       let response = await fetch(
-        "http://localhost:8080/get_neighbouring_sentences",
+        "http://localhost:8080/get_sentence_details",
         requestOptions
       );
       let data = await response.json();
       this.setState({
-        nbrText: data.neighbouring_sentences
-          .map((sentence) => sentence.sentence)
-          .join("\n"),
+        neighbouring_sentences: data.neighbouring_sentences,
+        document: data.document,
       });
+      console.log(data);
     }
   }
 }
