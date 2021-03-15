@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Chatbot from "./chatbot";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import KnowledgeGraph from "./knowledge_graph";
+import "../index.css";
+import InteractiveSearch from "./interactive_search";
 
 class App extends Component {
   state = {};
@@ -17,7 +18,7 @@ class App extends Component {
           <Chatbot />
         </Tab>
         <Tab eventKey="kg" title="Knowledge Graph">
-          <KnowledgeGraph />
+          <InteractiveSearch />
         </Tab>
       </Tabs>
     );

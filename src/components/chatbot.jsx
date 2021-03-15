@@ -1,7 +1,6 @@
 import Message from "./message";
 import MessageInputBox from "./messageInputBox";
 import React, { Component } from "react";
-import "../index.css";
 import { ChatLeftDotsFill } from "react-bootstrap-icons";
 
 class Chatbot extends Component {

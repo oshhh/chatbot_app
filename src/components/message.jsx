@@ -103,11 +103,11 @@ class Message extends Component {
       );
     } else {
       message_body = (
-        <p>
+        <span>
           {this.props.message.type == "answer"
             ? "..." + this.props.message.text + "..."
             : this.props.message.text}
-        </p>
+        </span>
       );
     }
     return (

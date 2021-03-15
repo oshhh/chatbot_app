@@ -27,7 +27,7 @@ class MessageInputBox extends Component {
             src={sendIcon}
             onClick={this.send}
             type="button"
-            className="sendIcon"
+            className="icon"
           />
         </div>
       </React.Fragment>

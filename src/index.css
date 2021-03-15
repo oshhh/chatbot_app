@@ -90,8 +90,8 @@ input[type="text"]:focus {
   height: 70%;
 }
 
-.sendIcon {
-  width: 10%;
+.icon {
+  width: 5vh;
   height: auto;
 }
 
@@ -118,4 +118,142 @@ input[type="text"]:focus {
   display: block;
   font-size: 2vh;
   float: right;
+}
+
+.kgMessage {
+  color: grey;
+  font-size: 4vh;
+  float: center;
+  text-align: center;
+}
+
+.interactiveSearchBody {
+  display: flex;
+  flex-direction: row;
+}
+
+.graph {
+  display: block;
+  width: 60vmax;
+  height: 60vmax;
+}
+
+.infoBox {
+  overflow: scroll;
+  display: block;
+  color: rgb(94, 94, 94);
+  width: 20vmax;
+  height: 80vh;
+  font-size: 2.5vh;
+  border: solid rgb(94, 94, 94) 0.5vh;
+}
+
+.infoBoxContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.legend {
+  overflow: scroll;
+  display: block;
+  color: rgb(94, 94, 94);
+  width: 20vmax;
+  height: 80vh;
+  font-size: 2vh;
+  border: solid rgb(94, 94, 94) 0.5vh;
+  text-align: center;
+}
+
+.legendRow {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+}
+
+.nodeText {
+  overflow: scroll;
+  height: 100%;
+  width: 100%;
+}
+
+.Document {
+  padding: 1vh;
+  background-color: rgb(91, 91, 91);
+  color: white;
+  height: 8vh;
+  width: 10vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Topic {
+  padding: 1vh;
+  background-color: rgb(136, 39, 222);
+  color: white;
+  height: 8vh;
+  width: 10vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Paragraph {
+  padding: 1vh;
+  background-color: peachpuff;
+  height: 10vh;
+  width: 10vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Sentence {
+  padding: 1vh;
+  background-color: rgb(175, 217, 244);
+  height: 8vh;
+  width: 10vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+}
+
+.Extraction {
+  padding: 1vh;
+  background-color: rgb(80, 204, 245);
+  height: 2vh;
+  width: 2vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ExtEntity {
+  padding: 1vh;
+  background-color: coral;
+  height: 5vh;
+  width: 10vh;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selected {
+  border: black 0.1vh;
 }
