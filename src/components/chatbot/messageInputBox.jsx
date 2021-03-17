@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import sendIcon from "../assets/sendIcon.webp";
+import sendIcon from "../../assets/sendIcon.webp";
 class MessageInputBox extends Component {
   constructor(props) {
     super(props);

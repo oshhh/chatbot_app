@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { ChevronExpand, ChevronContract } from "react-bootstrap-icons";
-import "../index.css";
 
 class Message extends Component {
   constructor(props) {
