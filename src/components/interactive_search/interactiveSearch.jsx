@@ -37,15 +37,15 @@ class InteractiveSearch extends Component {
           gravity: (-5000 * 1) / (this.state.graph.nodes.length + 1),
         },
         node: {
-          viewGenerator: (node) => {
-            return (
-              <Node
-                node={node}
-                getNeighbours={this.getNeighbours}
-                removeNode={this.removeNode}
-              />
-            );
-          },
+          // viewGenerator: (node) => {
+          //   return (
+          //     <Node
+          //       node={node}
+          //       getNeighbours={this.getNeighbours}
+          //       removeNode={this.removeNode}
+          //     />
+          //   );
+          // },
           renderLabel: false,
           size: 1.2 * window.innerHeight,
         },
@@ -72,15 +72,16 @@ class InteractiveSearch extends Component {
             />
           </div>
           <div className="graph">
-            {this.state.graph.nodes.length == 0 ? (
+            {
+              /* {this.state.graph.nodes.length == 0 ? (
               <div className="kgMessage margin"> Please enter query </div>
-            ) : (
+            ) : */
               <KG
-                graph={this.state.graph}
+                // graph={this.state.graph}
                 config={this.graph_config.config}
                 onClickNode={this.onClickNode}
               />
-            )}
+            }
           </div>
         </div>
         <div className="sideBar margin">
