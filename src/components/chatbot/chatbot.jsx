@@ -28,13 +28,16 @@ class Chatbot extends Component {
   data = {
     state: "start",
     query: null,
+    answerChosen: 0,
     topics: [],
     sentences: [],
   };
   render() {
-    const typing = this.state.loading ? (
+    let typing = this.state.loading ? (
       <ChatLeftDotsFill className="m-2" />
     ) : null;
+    // console.log(this.state.loading);
+    // console.log(typing);
     return (
       <div className="chatbot">
         <div className="chatScreen">
@@ -65,18 +68,28 @@ class Chatbot extends Component {
     this.data = {
       state: "start",
       query: null,
+      answerChosen: 0,
       topics: [],
       sentences: [],
     };
   }
 
+  removeAnswerFromData() {
+    if (this.data.topics.length > 0){
+      this.data.topics.splice(this.data.answerChosen, 1);
+    }
+    this.data.sentences.splice(this.data.answerChosen, 1);
+    console.log(this.data);
+    
+  }
+
   newUserMessage(message) {
     this.setState({ messages: [...this.state.messages, message] }, () => {
-      if (this.data.state == "start") {
+      if (this.data.state === "start") {
         this.handleMessageAfterStart(message);
-      } else if (this.data.state == "topics") {
+      } else if (this.data.state === "topics") {
         this.handleMessageAfterTopics(message);
-      } else if (this.data.state == "answered") {
+      } else if (this.data.state === "answered") {
         this.handleMessageAfterAnswered(message);
       }
     });
@@ -89,45 +102,62 @@ class Chatbot extends Component {
       body: JSON.stringify({ query: this.data.query }),
     };
     let response = await fetch(
-      "http://localhost:8080/shortlist_sentences",
+      "http://localhost:8080/get_answer",
       requestOptions
     );
     let data = await response.json();
     this.data.sentences = data.sentences;
     this.setState({ loading: false });
 
-    if (this.data.sentences.length <= 3) {
-      this.sendAnswer(this.data.sentences);
-    } else {
-      this.askAboutTopics(this.data.sentences);
-    }
+    // if (this.data.sentences.length <= 3) {
+    this.sendAnswer(this.data.sentences);
+    // this.askAboutTopics(this.data.sentences);
+    // } else {
+    //   this.askAboutTopics(this.data.sentences);
+    // }
   }
-  async handleMessageAfterTopics(message) {
+  handleMessageAfterTopics(message) {
     let data = message.text.split(",");
     data = new Set(data.map((x) => parseInt(x)));
-
-    let sentences = this.data.sentences.filter((sentence) => {
-      return data.has(this.data.topics.indexOf(sentence.topic) + 1);
-    });
-    this.data.sentences = sentences;
-    if (this.data.sentences.length <= 3) {
-      this.sendAnswer();
-    } else {
-      this.setState({ loading: true }, () => console.log("loading"));
-      const requestOptions = {
-        method: "POST",
-        body: JSON.stringify({
-          query: this.data.query,
-          sentences: this.data.sentences,
-        }),
-      };
-      let response = await fetch("http://localhost:8080/mrc", requestOptions);
-      let data = await response.json();
-      this.data.sentences = data.sentences;
-      this.setState({ loading: false });
-      this.sendAnswer();
-    }
+    
+    this.data.answerChosen = data.values().next().value-1;
+    this.sendAnswer();
+    // this.data.sentences = sentences;
+    // if (this.data.sentences.length <= 3) {
+    //   this.sendAnswer();
+    // } else {
+    //   this.setState({ loading: true }, () => console.log("loading"));
+    //   const requestOptions = {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       query: this.data.query,
+    //       sentences: this.data.sentences,
+    //     }),
+    //   };
+    //   let response = await fetch("http://localhost:8080/mrc", requestOptions);
+    //   let data = await response.json();
+    //   this.data.sentences = data.sentences;
+    //   this.setState({ loading: false });
+    //   this.sendAnswer();
+    // }
   }
+
+  displayAllAnswers(){
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        ...this.data.sentences.map((sentence) => {
+          return {
+            text: sentence.sentence,
+            author: 'bot',
+            type: 'answer',
+            sentence: sentence,
+          };
+        }),
+      ]
+    },);
+  }
+
   async handleMessageAfterAnswered(message) {
     if (message.text == "2") {
       this.setState({
@@ -140,19 +170,25 @@ class Chatbot extends Component {
         ],
       });
     } else {
-      this.setState({
-        messages: [
-          ...this.state.messages,
-          {
-            text: "Please contact the admin department for more information!",
-            author: "bot",
-          },
-        ],
-      });
+      if (this.data.sentences.length > 0){
+        this.displayAllAnswers();
+      }else{
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            {
+              text: "Please contact the admin department for more information!",
+              author: "bot",
+            },
+          ],
+        });
+      }
     }
     this.clearData();
   }
+
   sendAnswer() {
+    console.log(this.data.sentences)
     if (this.data.sentences == 0) {
       this.setState({
         messages: [
@@ -165,17 +201,16 @@ class Chatbot extends Component {
       });
       this.data.state = "start";
     } else {
+      // console.log(this.data.sentences)
       this.setState({
         messages: [
-          ...this.state.messages,
-          ...this.data.sentences.map((sentence) => {
-            return {
-              text: sentence.sentence,
+          ...this.state.messages,          
+            {
+              text: this.data.sentences[this.data.answerChosen].sentence,
               author: "bot",
               type: "answer",
-              sentence: sentence,
-            };
-          }),
+              sentence: this.data.sentences[this.data.answerChosen],
+            },
           {
             text: "Did you find the answer useful?",
             author: "bot",
@@ -184,7 +219,10 @@ class Chatbot extends Component {
           },
         ],
       });
+      console.log("Reached and answer removed hopefully!");
+      this.removeAnswerFromData();
       this.data.state = "answered";
+
     }
   }
 
