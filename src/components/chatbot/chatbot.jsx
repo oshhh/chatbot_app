@@ -75,12 +75,11 @@ class Chatbot extends Component {
   }
 
   removeAnswerFromData() {
-    if (this.data.topics.length > 0){
+    if (this.data.topics.length > 0) {
       this.data.topics.splice(this.data.answerChosen, 1);
     }
     this.data.sentences.splice(this.data.answerChosen, 1);
     console.log(this.data);
-    
   }
 
   newUserMessage(message) {
@@ -119,8 +118,8 @@ class Chatbot extends Component {
   handleMessageAfterTopics(message) {
     let data = message.text.split(",");
     data = new Set(data.map((x) => parseInt(x)));
-    
-    this.data.answerChosen = data.values().next().value-1;
+
+    this.data.answerChosen = data.values().next().value - 1;
     this.sendAnswer();
     // this.data.sentences = sentences;
     // if (this.data.sentences.length <= 3) {
@@ -142,20 +141,24 @@ class Chatbot extends Component {
     // }
   }
 
-  displayAllAnswers(){
+  displayAllAnswers() {
     this.setState({
       messages: [
         ...this.state.messages,
         ...this.data.sentences.map((sentence) => {
           return {
             text: sentence.sentence,
-            author: 'bot',
-            type: 'answer',
+            author: "bot",
+            type: "answer",
             sentence: sentence,
           };
         }),
-      ]
-    },);
+        {
+          text: "Please contact the admin department for more information!",
+          author: "bot",
+        },
+      ],
+    });
   }
 
   async handleMessageAfterAnswered(message) {
@@ -170,9 +173,9 @@ class Chatbot extends Component {
         ],
       });
     } else {
-      if (this.data.sentences.length > 0){
+      if (this.data.sentences.length > 0) {
         this.displayAllAnswers();
-      }else{
+      } else {
         this.setState({
           messages: [
             ...this.state.messages,
@@ -188,7 +191,7 @@ class Chatbot extends Component {
   }
 
   sendAnswer() {
-    console.log(this.data.sentences)
+    console.log(this.data.sentences);
     if (this.data.sentences == 0) {
       this.setState({
         messages: [
@@ -204,13 +207,13 @@ class Chatbot extends Component {
       // console.log(this.data.sentences)
       this.setState({
         messages: [
-          ...this.state.messages,          
-            {
-              text: this.data.sentences[this.data.answerChosen].sentence,
-              author: "bot",
-              type: "answer",
-              sentence: this.data.sentences[this.data.answerChosen],
-            },
+          ...this.state.messages,
+          {
+            text: this.data.sentences[this.data.answerChosen].sentence,
+            author: "bot",
+            type: "answer",
+            sentence: this.data.sentences[this.data.answerChosen],
+          },
           {
             text: "Did you find the answer useful?",
             author: "bot",
@@ -222,7 +225,6 @@ class Chatbot extends Component {
       console.log("Reached and answer removed hopefully!");
       this.removeAnswerFromData();
       this.data.state = "answered";
-
     }
   }
 
