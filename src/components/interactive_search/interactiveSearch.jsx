@@ -7,6 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import Legend from "./legend";
 import InfoBox from "./infoBox";
 import "../../stylesheets/interactiveSearch.css";
+// import { tree } from "./tree.jsx";
 
 class InteractiveSearch extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class InteractiveSearch extends Component {
       config: {
         height: 0.8 * window.innerHeight,
         width: 0.8 * window.innerWidth,
+        
         d3: {
           gravity: (-5000 * 1) / (this.state.graph.nodes.length + 1),
         },
@@ -90,6 +92,7 @@ class InteractiveSearch extends Component {
             style={{ height: "7vh", "font-size": "2.5vh" }}
           >
             <Tab eventKey="infoBox" title="InfoBox">
+              {console.log(this.state.selectedNode)}
               <InfoBox
                 selectedNode={this.state.selectedNode}
                 getNeighbours={this.getNeighbours}
@@ -103,7 +106,7 @@ class InteractiveSearch extends Component {
       </div>
     );
   }
-
+  
   async getGraph() {
     this.neighbours_present = new Set();
     let requestOptions = {
@@ -220,7 +223,9 @@ class InteractiveSearch extends Component {
   }
 
   async onClickNode(node) {
-    this.setState({ selectedNode: node });
+    const nodeData = [...this.state.graph.nodes.filter((item) => {return node === item.id})][0];
+    console.log(nodeData);
+    this.setState({ selectedNode: nodeData });
   }
 
   handleInputChange(event) {

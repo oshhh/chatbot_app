@@ -38,6 +38,13 @@ class Chatbot extends Component {
     ) : null;
     // console.log(this.state.loading);
     // console.log(typing);
+    // console.log(this.state.messages);
+    let inputBox = (<MessageInputBox key = "" newUserMessage={this.newUserMessage} />);
+    if(this.state.messages[this.state.messages.length - 1].type == "msq"){
+      inputBox = null;
+    }else{
+      inputBox = (<MessageInputBox key = "" newUserMessage={this.newUserMessage} />);
+    }
     return (
       <div className="chatbot">
         <div className="chatScreen">
@@ -46,7 +53,8 @@ class Chatbot extends Component {
           </div>
           <div className="window">
             <div className="chat">
-              <MessageInputBox key="" newUserMessage={this.newUserMessage} />
+              {inputBox}
+              {/* {console.log(this.state.messages)} */}
               {typing}
               {this.state.messages
                 .map((message, idx) => (
@@ -159,7 +167,9 @@ class Chatbot extends Component {
   }
 
   async handleMessageAfterAnswered(message) {
-    if (message.text == "2") {
+    this.state.messages.pop();
+    console.log(this.state.messages);
+    if (message.text == "Yes") {
       this.setState({
         messages: [
           ...this.state.messages,
@@ -215,7 +225,7 @@ class Chatbot extends Component {
             text: "Did you find the answer useful?",
             author: "bot",
             type: "msq",
-            options: ["no", "yes"],
+            options: ["No", "Yes"],
           },
         ],
       });
