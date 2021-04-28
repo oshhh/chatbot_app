@@ -40,7 +40,7 @@ class Legend extends Component {
           </div>
           <div
             className="margin"
-            style={{ position: "relative", width: "8vw" }}
+            style={{ position: "relative", width: "10vw" }}
           >
             This represents a topic or subtopic present in a IIITD policy
             document.
@@ -62,7 +62,7 @@ class Legend extends Component {
           </div>
           <div
             className="margin"
-            style={{ position: "relative", width: "8vw" }}
+            style={{ position: "relative", width: "10vw" }}
           >
             This represents a paragraph present in a IIITD policy document.
           </div>
@@ -83,7 +83,7 @@ class Legend extends Component {
           </div>
           <div
             className="margin"
-            style={{ position: "relative", width: "8vw" }}
+            style={{ position: "relative", width: "10vw" }}
           >
             This represents a sentence in a IIITD policy document.
           </div>
@@ -104,7 +104,7 @@ class Legend extends Component {
           </div>
           <div
             className="margin"
-            style={{ position: "relative", width: "8vw" }}
+            style={{ position: "relative", width: "10vw" }}
           >
             This represents a noun phrase in a IIITD policy document.
           </div>
