@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ButtonGroup, ButtonToolbar } from "react-bootstrap";
 import { ChevronExpand, ChevronContract } from "react-bootstrap-icons";
 
 class Message extends Component {
@@ -27,35 +28,51 @@ class Message extends Component {
     let msq = null;
     if (this.props.message.type == "msq") {
       msq = (
+        // <div>
+        //   <div>
+        //     {this.props.message.options.map((option, index) => (
+        //       <div>
+        //         <input
+        //           className="margin"
+        //           type="checkbox"
+        //           value=""
+        //           key={`option_${index}`}
+        //           onChange={() => {
+        //             this.data.options.has(index + 1)
+        //               ? this.data.options.delete(index + 1)
+        //               : this.data.options.add(index + 1);
+        //           }}
+        //         />
+        //         {index + 1}: {option}
+        //       </div>
+        //     ))}
+        //   </div>
+        //   <div>
+        //     <button
+        //       onClick={this.sendOptions}
+        //       type="button"
+        //       className="btn btn-secondary margin "
+        //       disabled={!this.state.allowOptionSelect}
+        //     >
+        //       Submit
+        //     </button>
+        //   </div>
+        // </div>
         <div>
-          <div>
-            {this.props.message.options.map((option, index) => (
-              <div>
-                <input
-                  className="margin"
-                  type="checkbox"
-                  value=""
-                  key={`option_${index}`}
-                  onChange={() => {
-                    this.data.options.has(index + 1)
-                      ? this.data.options.delete(index + 1)
-                      : this.data.options.add(index + 1);
-                  }}
-                />
-                {index + 1}: {option}
-              </div>
-            ))}
-          </div>
-          <div>
+          <ButtonGroup>
+          {this.props.message.options.map((option) => (
             <button
-              onClick={this.sendOptions}
-              type="button"
-              className="btn btn-secondary margin "
-              disabled={!this.state.allowOptionSelect}
+              onClick = {() => this.sendOptions(option)}
+              type = "button"
+              className = "btn btn-secondary btn-lg margin"
+              style = {{width: "13em"}}
             >
-              Submit
+              {option}
             </button>
-          </div>
+            // {index + 1}: {option}
+          ))
+          }
+          </ButtonGroup>
         </div>
       );
     }
@@ -111,20 +128,25 @@ class Message extends Component {
     }
     return (
       <React.Fragment>
-        <div className={this.props.message.author}>
-          <div className={card_class}>
-            {expand_button}
-            {message_body}
-            {msq}
+          <div className={this.props.message.author}>
+              <div className={card_class}>
+                {expand_button}
+                {message_body}
+              </div>
+            <div>
+              <center>
+              {msq}
+              </center>
+            </div>
           </div>
-        </div>
       </React.Fragment>
     );
   }
 
-  sendOptions() {
+  sendOptions(option) {
+    // console.log(option);
     this.props.newUserMessage({
-      text: `${[...this.data.options]}`,
+      text: `${[option]}`,
       author: `user`,
     });
     this.data.options = new Set([]);

@@ -43,14 +43,14 @@ class KG extends Component {
   }
   createGraph() {
     return (
+      <div>
       <Graph
         id="graph-id"
         data={this.props.graph}
         config={this.props.config}
-        onClickNode={(id, node) => {
-          this.props.onClickNode(node);
-        }}
+        onClickNode={this.props.onClickNode}
       />
+      </div>
     );
   }
   calculatePositions() {

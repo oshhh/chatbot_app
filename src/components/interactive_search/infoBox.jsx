@@ -8,6 +8,7 @@ class InfoBox extends Component {
     return (
       <div className="infoBox margin">
         <div>
+          {console.log(this.props)}
           {this.props.selectedNode ? (
             <div className="infoBoxContent margin">
               <h4>Selected Node</h4>
