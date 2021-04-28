@@ -13,7 +13,7 @@
 .interactiveSearchBody {
   display: flex;
   flex-direction: column;
-  width: 80vmax;
+  width: 80vw;
 }
 
 .searchBar {
@@ -23,7 +23,7 @@
 
 .graph {
   display: block;
-  height: 60vmax;
+  height: 80vh;
 }
 
 .sideBar {
@@ -34,7 +34,7 @@
   overflow: scroll;
   display: block;
   color: rgb(94, 94, 94);
-  height: 83vh;
+  height: 80vh;
   font-size: 2.5vh;
   border: solid rgb(94, 94, 94) 0.3vh;
 }
@@ -49,7 +49,7 @@
   overflow: scroll;
   display: block;
   color: rgb(94, 94, 94);
-  height: 83vh;
+  height: 80vh;
   font-size: 2vh;
   border: solid rgb(94, 94, 94) 0.3vh;
   text-align: center;

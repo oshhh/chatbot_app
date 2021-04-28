@@ -31,6 +31,7 @@ class InteractiveSearch extends Component {
   render() {
     this.graph_config = {
       config: {
+        staticGraphWithDragAndDrop: true,
         height: 0.8 * window.innerHeight,
         width: 0.8 * window.innerWidth,
         d3: {
@@ -48,9 +49,6 @@ class InteractiveSearch extends Component {
           },
           renderLabel: false,
           size: 1.2 * window.innerHeight,
-        },
-        link: {
-          labelProperty: "type",
         },
       },
     };
@@ -79,6 +77,8 @@ class InteractiveSearch extends Component {
                 graph={this.state.graph}
                 config={this.graph_config.config}
                 onClickNode={this.onClickNode}
+                getNeighbours={this.getNeighbours}
+                removeNode={this.removeNode}
               />
             )}
           </div>

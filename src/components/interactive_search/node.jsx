@@ -29,6 +29,7 @@ class Node extends Component {
     );
     return (
       <div
+        style={{ left: this.props.node.x, top: this.props.node.y }}
         onMouseEnter={() => this.setState({ showOptions: true })}
         onMouseLeave={() => this.setState({ showOptions: false })}
         className="nodeBody"

@@ -9,7 +9,10 @@ class Legend extends Component {
       <div className="legend margin">
         <h3>Legend</h3>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <Node
               node={{
                 text: "Document",
@@ -22,7 +25,10 @@ class Legend extends Component {
           <div className="margin">This represents a IIITD policy document.</div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <Node
               node={{
                 text: "Topic",
@@ -32,13 +38,19 @@ class Legend extends Component {
               }}
             />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "8vw" }}
+          >
             This represents a topic or subtopic present in a IIITD policy
             document.
           </div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <Node
               node={{
                 text: "Paragraph",
@@ -48,12 +60,18 @@ class Legend extends Component {
               }}
             />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "8vw" }}
+          >
             This represents a paragraph present in a IIITD policy document.
           </div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <Node
               node={{
                 text: "Sentence",
@@ -63,12 +81,18 @@ class Legend extends Component {
               }}
             />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "8vw" }}
+          >
             This represents a sentence in a IIITD policy document.
           </div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <Node
               node={{
                 text: "Token",
@@ -78,23 +102,38 @@ class Legend extends Component {
               }}
             />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "8vw" }}
+          >
             This represents a noun phrase in a IIITD policy document.
           </div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <NodePlusFill className="icon" />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             Add neighbours of the current node to graph.
           </div>
         </div>
         <div className="margin legendRow">
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             <XCircleFill className="icon" />
           </div>
-          <div className="margin">
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
             Remove node from graph. Neighbouring nodes with no other neighbours
             will also be removed.
           </div>

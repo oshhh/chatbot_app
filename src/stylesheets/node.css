@@ -1,6 +1,7 @@
 .nodeBody {
   height: 10vh;
-  width: 12vh;
+  width: 12vw;
+  position: absolute;
 }
 
 .mainBody {
