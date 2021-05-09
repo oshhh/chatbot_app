@@ -8,7 +8,6 @@ class KG extends Component {
   constructor(props) {
     super(props);
     this.calculatePositions = this.calculatePositions.bind(this);
-    this.createGraph = this.createGraph.bind(this);
   }
   shouldComponentUpdate(nextProps) {
     return nextProps.graph !== this.props.graph;
@@ -36,20 +35,9 @@ class KG extends Component {
             node={node}
             getNeighbours={this.props.getNeighbours}
             removeNode={this.props.removeNode}
+            onClickNode={this.props.onClickNode}
           />
         ))}
-      </div>
-    );
-  }
-  createGraph() {
-    return (
-      <div>
-      <Graph
-        id="graph-id"
-        data={this.props.graph}
-        config={this.props.config}
-        onClickNode={this.props.onClickNode}
-      />
       </div>
     );
   }

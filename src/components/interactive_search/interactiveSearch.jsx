@@ -35,7 +35,7 @@ class InteractiveSearch extends Component {
         staticGraphWithDragAndDrop: true,
         height: 0.8 * window.innerHeight,
         width: 0.8 * window.innerWidth,
-        
+
         d3: {
           gravity: (-5000 * 1) / (this.state.graph.nodes.length + 1),
         },
@@ -85,7 +85,7 @@ class InteractiveSearch extends Component {
             )}
           </div>
         </div>
-        <div className="sideBar margin">
+        <div className="sideBar">
           <Tabs
             defaultActiveKey="legend"
             id="sidebar"
@@ -106,7 +106,7 @@ class InteractiveSearch extends Component {
       </div>
     );
   }
-  
+
   async getGraph() {
     this.neighbours_present = new Set();
     let requestOptions = {
@@ -223,7 +223,12 @@ class InteractiveSearch extends Component {
   }
 
   async onClickNode(node) {
-    const nodeData = [...this.state.graph.nodes.filter((item) => {return node === item.id})][0];
+    const nodeData = [
+      ...this.state.graph.nodes.filter((item) => {
+        return node.id === item.id;
+      }),
+    ][0];
+    console.log(node);
     console.log(nodeData);
     this.setState({ selectedNode: nodeData });
   }

@@ -26,56 +26,26 @@ class Message extends Component {
     let card_class = "messageCard margin " + this.props.message.author;
 
     let msq = null;
-    if (this.props.message.type == "msq") {
+    if (this.props.message.type == "msq" && this.state.allowOptionSelect) {
       msq = (
-        // <div>
-        //   <div>
-        //     {this.props.message.options.map((option, index) => (
-        //       <div>
-        //         <input
-        //           className="margin"
-        //           type="checkbox"
-        //           value=""
-        //           key={`option_${index}`}
-        //           onChange={() => {
-        //             this.data.options.has(index + 1)
-        //               ? this.data.options.delete(index + 1)
-        //               : this.data.options.add(index + 1);
-        //           }}
-        //         />
-        //         {index + 1}: {option}
-        //       </div>
-        //     ))}
-        //   </div>
-        //   <div>
-        //     <button
-        //       onClick={this.sendOptions}
-        //       type="button"
-        //       className="btn btn-secondary margin "
-        //       disabled={!this.state.allowOptionSelect}
-        //     >
-        //       Submit
-        //     </button>
-        //   </div>
-        // </div>
         <div>
           <ButtonGroup>
-          {this.props.message.options.map((option) => (
-            <button
-              onClick = {() => this.sendOptions(option)}
-              type = "button"
-              className = "btn btn-secondary btn-lg margin"
-              style = {{width: "13em"}}
-            >
-              {option}
-            </button>
-            // {index + 1}: {option}
-          ))
-          }
+            {this.props.message.options.map((option) => (
+              <button
+                disabled={!this.state.allowOptionSelect}
+                onClick={() => this.sendOptions(option)}
+                type="button"
+                className="btn btn-secondary btn-lg margin"
+                style={{ width: "15vw" }}
+              >
+                {option}
+              </button>
+            ))}
           </ButtonGroup>
         </div>
       );
     }
+
     let expand_button = null;
     if (this.props.message.type == "answer") {
       if (this.state.expand) {
@@ -128,23 +98,20 @@ class Message extends Component {
     }
     return (
       <React.Fragment>
-          <div className={this.props.message.author}>
-              <div className={card_class}>
-                {expand_button}
-                {message_body}
-              </div>
-            <div>
-              <center>
-              {msq}
-              </center>
-            </div>
+        <div className={this.props.message.author}>
+          <div className={card_class}>
+            {expand_button}
+            {message_body}
           </div>
+          <div>
+            <center>{msq}</center>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
 
   sendOptions(option) {
-    // console.log(option);
     this.props.newUserMessage({
       text: `${[option]}`,
       author: `user`,
@@ -155,7 +122,6 @@ class Message extends Component {
 
   async handleExpand(expand) {
     this.setState({ expand: expand });
-    console.log(this.state.neighbouring_sentences);
     if (expand && this.state.neighbouring_sentences.length == 0) {
       const requestOptions = {
         method: "POST",
@@ -172,7 +138,6 @@ class Message extends Component {
         neighbouring_sentences: data.neighbouring_sentences,
         document: data.document,
       });
-      console.log(data);
     }
   }
 }

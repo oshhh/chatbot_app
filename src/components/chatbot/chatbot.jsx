@@ -9,8 +9,10 @@ class Chatbot extends Component {
     super(props);
     this.newUserMessage = this.newUserMessage.bind(this);
     this.handleMessageAfterStart = this.handleMessageAfterStart.bind(this);
-    this.handleMessageAfterTopics = this.handleMessageAfterTopics.bind(this);
     this.handleMessageAfterAnswered = this.handleMessageAfterAnswered.bind(
+      this
+    );
+    this.handleMessageAfterCorrectedText = this.handleMessageAfterCorrectedText.bind(
       this
     );
     this.sendAnswer = this.sendAnswer.bind(this);
@@ -36,14 +38,15 @@ class Chatbot extends Component {
     let typing = this.state.loading ? (
       <ChatLeftDotsFill className="m-2" />
     ) : null;
-    // console.log(this.state.loading);
-    // console.log(typing);
-    // console.log(this.state.messages);
-    let inputBox = (<MessageInputBox key = "" newUserMessage={this.newUserMessage} />);
-    if(this.state.messages[this.state.messages.length - 1].type == "msq"){
+    let inputBox = (
+      <MessageInputBox key="" newUserMessage={this.newUserMessage} />
+    );
+    if (this.state.messages[this.state.messages.length - 1].type == "msq") {
       inputBox = null;
-    }else{
-      inputBox = (<MessageInputBox key = "" newUserMessage={this.newUserMessage} />);
+    } else {
+      inputBox = (
+        <MessageInputBox key="" newUserMessage={this.newUserMessage} />
+      );
     }
     return (
       <div className="chatbot">
@@ -54,7 +57,6 @@ class Chatbot extends Component {
           <div className="window">
             <div className="chat">
               {inputBox}
-              {/* {console.log(this.state.messages)} */}
               {typing}
               {this.state.messages
                 .map((message, idx) => (
@@ -79,6 +81,7 @@ class Chatbot extends Component {
       answerChosen: 0,
       topics: [],
       sentences: [],
+      correctedText: "",
     };
   }
 
@@ -87,15 +90,14 @@ class Chatbot extends Component {
       this.data.topics.splice(this.data.answerChosen, 1);
     }
     this.data.sentences.splice(this.data.answerChosen, 1);
-    console.log(this.data);
   }
 
   newUserMessage(message) {
     this.setState({ messages: [...this.state.messages, message] }, () => {
       if (this.data.state === "start") {
         this.handleMessageAfterStart(message);
-      } else if (this.data.state === "topics") {
-        this.handleMessageAfterTopics(message);
+      } else if (this.data.state === "correctedText") {
+        this.handleMessageAfterCorrectedText(message);
       } else if (this.data.state === "answered") {
         this.handleMessageAfterAnswered(message);
       }
@@ -103,7 +105,46 @@ class Chatbot extends Component {
   }
   async handleMessageAfterStart(message) {
     this.setState({ loading: true });
+    this.data.state = "correctedText";
     this.data.query = message.text;
+
+    const requestOptions = {
+      method: "POST",
+      body: JSON.stringify({ text: this.data.query }),
+    };
+    let response = await fetch(
+      "http://localhost:8080/correct_text",
+      requestOptions
+    );
+    let data = await response.json();
+    this.data.correctedText = data.corrected_text;
+
+    this.setState({ loading: false });
+    console.log(this.data.correctedText);
+
+    if (this.data.correctedText == this.data.query) {
+      this.handleMessageAfterCorrectedText("No");
+    } else {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          {
+            text: `Did you mean: "${this.data.correctedText}"? `,
+            author: "bot",
+            type: "msq",
+            options: ["No", "Yes"],
+          },
+        ],
+      });
+      this.removeAnswerFromData();
+    }
+  }
+
+  async handleMessageAfterCorrectedText(message) {
+    this.setState({ loading: true });
+    if (message.text == "Yes") {
+      this.data.query = this.data.correctedText;
+    }
     const requestOptions = {
       method: "POST",
       body: JSON.stringify({ query: this.data.query }),
@@ -115,38 +156,7 @@ class Chatbot extends Component {
     let data = await response.json();
     this.data.sentences = data.sentences;
     this.setState({ loading: false });
-
-    // if (this.data.sentences.length <= 3) {
     this.sendAnswer(this.data.sentences);
-    // this.askAboutTopics(this.data.sentences);
-    // } else {
-    //   this.askAboutTopics(this.data.sentences);
-    // }
-  }
-  handleMessageAfterTopics(message) {
-    let data = message.text.split(",");
-    data = new Set(data.map((x) => parseInt(x)));
-
-    this.data.answerChosen = data.values().next().value - 1;
-    this.sendAnswer();
-    // this.data.sentences = sentences;
-    // if (this.data.sentences.length <= 3) {
-    //   this.sendAnswer();
-    // } else {
-    //   this.setState({ loading: true }, () => console.log("loading"));
-    //   const requestOptions = {
-    //     method: "POST",
-    //     body: JSON.stringify({
-    //       query: this.data.query,
-    //       sentences: this.data.sentences,
-    //     }),
-    //   };
-    //   let response = await fetch("http://localhost:8080/mrc", requestOptions);
-    //   let data = await response.json();
-    //   this.data.sentences = data.sentences;
-    //   this.setState({ loading: false });
-    //   this.sendAnswer();
-    // }
   }
 
   displayAllAnswers() {
@@ -170,8 +180,6 @@ class Chatbot extends Component {
   }
 
   async handleMessageAfterAnswered(message) {
-    this.state.messages.pop();
-    console.log(this.state.messages);
     if (message.text == "Yes") {
       this.setState({
         messages: [
@@ -201,7 +209,6 @@ class Chatbot extends Component {
   }
 
   sendAnswer() {
-    console.log(this.data.sentences);
     if (this.data.sentences == 0) {
       this.setState({
         messages: [
@@ -214,7 +221,6 @@ class Chatbot extends Component {
       });
       this.data.state = "start";
     } else {
-      // console.log(this.data.sentences)
       this.setState({
         messages: [
           ...this.state.messages,
@@ -232,7 +238,6 @@ class Chatbot extends Component {
           },
         ],
       });
-      console.log("Reached and answer removed hopefully!");
       this.removeAnswerFromData();
       this.data.state = "answered";
     }

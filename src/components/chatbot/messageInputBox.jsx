@@ -34,7 +34,9 @@ class MessageInputBox extends Component {
     );
   }
   handleInputChange(event) {
-    this.setState({ message: { text: event.target.value, author: "user" } });
+    this.setState({
+      message: { text: event.target.value, author: "user", type: "question" },
+    });
   }
   send() {
     console.log(this.state.message);
