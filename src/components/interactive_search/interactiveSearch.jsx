@@ -230,6 +230,8 @@ class InteractiveSearch extends Component {
     ][0];
     console.log(node);
     console.log(nodeData);
+    nodeData.x = 1000;
+    nodeData.y = 100;
     this.setState({ selectedNode: nodeData });
   }
 

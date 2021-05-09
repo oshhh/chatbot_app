@@ -12,7 +12,7 @@ class InfoBox extends Component {
           {this.props.selectedNode ? (
             <div className="infoBoxContent margin">
               <h4>Selected Node</h4>
-              <Node node={this.props.selectedNode} />
+              {/* <Node node={this.props.selectedNode} /> */}
               <p>
                 <b>Node ID: </b> {this.props.selectedNode.id}
               </p>
