@@ -22,7 +22,12 @@ class Legend extends Component {
               }}
             />
           </div>
-          <div className="margin">This represents a IIITD policy document.</div>
+          <div
+            className="margin"
+            style={{ position: "relative", width: "10vw" }}
+          >
+            This represents a IIITD policy document.
+          </div>
         </div>
         <div className="margin legendRow">
           <div
