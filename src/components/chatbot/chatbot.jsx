@@ -3,10 +3,13 @@ import MessageInputBox from "./messageInputBox";
 import React, { Component } from "react";
 import { ChatLeftDotsFill } from "react-bootstrap-icons";
 import "../../stylesheets/chatbot.css";
+import InteractiveSearch from "../interactive_search/interactiveSearch";
 
 class Chatbot extends Component {
   constructor(props) {
     super(props);
+    this.fetchSources = this.fetchSources.bind(this);
+    this.fetchSources();
     this.newUserMessage = this.newUserMessage.bind(this);
     this.handleMessageAfterStart = this.handleMessageAfterStart.bind(this);
     this.handleMessageAfterAnswered = this.handleMessageAfterAnswered.bind(
@@ -26,6 +29,7 @@ class Chatbot extends Component {
       },
     ],
     loading: false,
+    sources: [{name: "placement policy", link: "https://www.google.com"}]
   };
   data = {
     state: "start",
@@ -50,6 +54,14 @@ class Chatbot extends Component {
     }
     return (
       <div className="chatbot">
+        <div className="chatbotInfo">
+          <div className="chatbotInfoScreen">
+            <div className="chatbotInfoTitle">About Policy Chatbot</div>
+            <div className="chatbotInfoBody">
+              This Policy Chatbot aims to answer student questions related to IIITD's policies. It can answer questions regarding policies ranging from Admissions, Registration and credits, teaching and evaluation, graduation requirements, hostels, placements, plagiarism, etc. 
+            </div>
+          </div>
+        </div>
         <div className="chatScreen">
           <div className="topBar">
             <div className="topBarText">@iiitd_policybot</div>
@@ -70,8 +82,31 @@ class Chatbot extends Component {
             </div>
           </div>
         </div>
+        <div className="chatbotInfo">
+          <div className="chatbotInfoScreen">              
+          <div className="chatbotInfoTitle">Sources</div>
+          <div className="chatbotInfoBody">
+            The sources of information that this chatbot uses are:
+            <ul>
+              {this.state.sources.map((source) => <li>{source.name} (<a href={source.link}>Link</a>)</li> )}
+            </ul></div>
+          </div>
+        </div>
       </div>
     );
+  }
+
+  async fetchSources() {
+    const requestOptions = {
+      method: "GET",
+    };
+    let response = await fetch(
+      "http://localhost:8080/sources",
+      requestOptions
+    );
+    let data = await response.json();
+    this.setState({sources: data['sources']})
+    console.log(data['sources']);
   }
 
   clearData() {
