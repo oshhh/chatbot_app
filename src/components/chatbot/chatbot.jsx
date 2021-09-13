@@ -3,7 +3,6 @@ import MessageInputBox from "./messageInputBox";
 import React, { Component } from "react";
 import { ChatLeftDotsFill } from "react-bootstrap-icons";
 import "../../stylesheets/chatbot.css";
-import InteractiveSearch from "../interactive_search/interactiveSearch";
 
 class Chatbot extends Component {
   constructor(props) {
@@ -54,42 +53,43 @@ class Chatbot extends Component {
     }
     return (
       <div className="chatbot">
-        <div className="chatbotInfo">
-          <div className="chatbotInfoScreen">
-            <div className="chatbotInfoTitle">About Policy Chatbot</div>
-            <div className="chatbotInfoBody">
-              This Policy Chatbot aims to answer student questions related to IIITD's policies. It can answer questions regarding policies ranging from Admissions, Registration and credits, teaching and evaluation, graduation requirements, hostels, placements, plagiarism, etc. 
-            </div>
-          </div>
-        </div>
         <div className="chatScreen">
           <div className="topBar">
             <div className="topBarText">@iiitd_policybot</div>
           </div>
-          <div className="window">
-            <div className="chat">
-              {inputBox}
-              {typing}
-              {this.state.messages
-                .map((message, idx) => (
-                  <Message
-                    key={idx}
-                    message={message}
-                    newUserMessage={this.newUserMessage}
-                  />
-                ))
-                .reverse()}
+            <div className="window">
+              <div className="chat">
+                {inputBox}
+                {typing}
+                {this.state.messages
+                  .map((message, idx) => (
+                    <Message
+                      key={idx}
+                      message={message}
+                      newUserMessage={this.newUserMessage}
+                    />
+                  ))
+                  .reverse()}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="chatbotInfo">
-          <div className="chatbotInfoScreen">              
-          <div className="chatbotInfoTitle">Sources</div>
-          <div className="chatbotInfoBody">
-            The sources of information that this chatbot uses are:
-            <ul>
-              {this.state.sources.map((source) => <li>{source.name} (<a href={source.link}>Link</a>)</li> )}
-            </ul></div>
+          <div className="chatbotInfo">
+            <div className="chatbotInfoScreen">              
+            <div className="chatbotInfoTitle">About Policy Chatbot</div>
+            <div className="chatbotInfoBody">
+              This Policy Chatbot aims to answer student questions related to IIITD's policies. It can answer questions regarding policies ranging from Admissions, Registration and credits, teaching and evaluation, graduation requirements, hostels, placements, plagiarism, etc. 
+            </div>
+            <div className="chatbotInfoTitle">Sources</div>
+            <div className="chatbotInfoBody">
+              The sources of information that this chatbot uses are:
+              <ul>
+                {this.state.sources.map((source) => <li>{source.name} (<a href={source.link}>Link</a>)</li> )}
+              </ul>
+            </div>
+            <div className="chatbotInfoTitle">Interactive View</div>
+              <div className="chatbotInfoBody">
+                <a href="/interactivesearch">Explore Interactive View</a>
+              </div>
           </div>
         </div>
       </div>

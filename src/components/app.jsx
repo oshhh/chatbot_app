@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div>
         <header>
-          <div>Policy Chatbot of IIITD</div>
+          Policy Chatbot of IIITD
         </header>
         <BrowserRouter>
           <Switch>
